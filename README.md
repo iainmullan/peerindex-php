@@ -6,4 +6,5 @@ Usage:
     $twitterName = 'iainmullan';
 
     $pi = new PeerIndex($key);
-    $pi->show($twitterName);
+    $user = pi->show($twitterName);
+    echo $user['name'].': '.$user['peerindex'];

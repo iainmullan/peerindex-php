@@ -13,25 +13,35 @@ class PeerIndexAPI {
 	private $version = 'v2';
 	private $format = 'json';
 
-	function __construct($apiKey) {
+	function __construct($apiKey, $format = 'json') {
 		$this->apiKey = $apiKey;
+
+		if (in_array($format, array('json', 'xml'))) {
+			$this->format = $format;
+		}
 	}
 
+	/**
+	 *	@see http://dev.peerindex.com/#profile-profile
+	 */
 	function profile($twitterScreenName) {
 		return $this->_method('profile', array('id' => $twitterScreenName));
 	}
 
+	/**
+	 *	@see http://dev.peerindex.com/#profile-show
+	 */
 	function show($twitterScreenName) {
 		return $this->_method('show', array('id' => $twitterScreenName));
 	}
 
-	function _method($method, $params = array()) {
+	private function _method($method, $params = array()) {
 		$url = "{$this->baseUrl}/{$this->version}/profile/{$method}.{$this->format}";
 		$params['api_key'] = $this->apiKey;
 		return $this->get($url,$params);
 	}
 
-	function get($url,$params) {
+	protected function get($url,$params) {
 
 		if ($params) {
 			$url = $url.'?'.http_build_query($params);
